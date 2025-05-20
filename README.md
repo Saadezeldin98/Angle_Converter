@@ -19,7 +19,7 @@ Saad Ezeldin
 
 ## ✨ Features
 
-- 🔁 Convert **degrees ↔ radians** & **Radians ↔ Degrees**
+- 🔁 Convert **degrees ↔ radians** & **radians ↔ degrees**
 - 📐 Dynamic angle visualization using HTML5 `<canvas>`
 - 🎨 Theme switcher (Light, Dark, Blue/Green)
 - 📊 Formula shown for better understanding
