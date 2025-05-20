@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Angle Converter: Degrees ↔ Radians</title>
+    <style>
+        :root {
+            /* Default Light Theme */
+            --bg-gradient-start: #eef2ff;
+            --bg-gradient-end: #f0f9ff;
+            --converter-bg: white;
+            --converter-shadow: rgba(0, 0, 0, 0.1);
+            --h2-color: #1d4ed8;
+            --input-border: #ccc;
+            --result-color: #111827;
+            --formula-color: #6b7280;
+            --canvas-bg: #f8fafc;
+            --canvas-border: #ddd;
+            --circle-stroke: #1d4ed8;
+            --radius-stroke: #6b7280;
+            --angle-line-stroke: #ef4444;
+            --angle-arc-stroke: #10b981;
+            --text-color: #374151;
+            --button-bg: #1d4ed8;
+            --button-text: white;
+            --button-hover-bg: #143eab;
+        }
+
+        /* Dark Theme */
+        .dark-theme {
+            --bg-gradient-start: #2d3748;
+            --bg-gradient-end: #1a202c;
+            --converter-bg: #2d3748;
+            --converter-shadow: rgba(0, 0, 0, 0.4);
+            --h2-color: #90cdf4; /* Light blue */
+            --input-border: #4a5568;
+            --result-color: #e2e8f0; /* Off-white */
+            --formula-color: #a0aec0; /* Lighter gray */
+            --canvas-bg: #2c3140;
+            --canvas-border: #4a5568;
+            --circle-stroke: #90cdf4;
+            --radius-stroke: #a0aec0;
+            --angle-line-stroke: #fc8181; /* Light red */
+            --angle-arc-stroke: #68d391; /* Light green */
+            --text-color: #e2e8f0;
+            --button-bg: #4a5568;
+            --button-text: white;
+            --button-hover-bg: #2d3748;
+        }
+
+        /* Blue/Green Theme */
+        .blue-green-theme {
+            --bg-gradient-start: #4facfe;
+            --bg-gradient-end: #00f2fe;
+            --converter-bg: #e0f2f7;
+            --converter-shadow: rgba(0, 100, 150, 0.2);
+            --h2-color: #00796b; /* Dark Teal */
+            --input-border: #80cbc4;
+            --result-color: #004d40; /* Darker Teal */
+            --formula-color: #4db6ac; /* Medium Teal */
+            --canvas-bg: #e0f2f7;
+            --canvas-border: #80cbc4;
+            --circle-stroke: #00796b;
+            --radius-stroke: #4db6ac;
+            --angle-line-stroke: #ff7043; /* Orange */
+            --angle-arc-stroke: #66bb6a; /* Light Green */
+            --text-color: #004d40;
+            --button-bg: #00796b;
+            --button-text: white;
+            --button-hover-bg: #004d40;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, var(--bg-gradient-start), var(--bg-gradient-end));
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column; /* Allow content to stack */
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            transition: background 0.5s ease-in-out; /* Smooth transition for background */
+        }
+
+        .converter {
+            background-color: var(--converter-bg);
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px var(--converter-shadow);
+            width: 420px;
+            text-align: center;
+            transition: background-color 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: var(--h2-color);
+            transition: color 0.5s ease-in-out;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 12px;
+            border-radius: 6px;
+            border: 1px solid var(--input-border);
+            background-color: var(--converter-bg); /* Use converter background for inputs */
+            color: var(--text-color); /* Use general text color for input text */
+            transition: border-color 0.5s ease-in-out, background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+        }
+
+        .result {
+            margin-top: 10px;
+            font-size: 18px;
+            color: var(--result-color);
+            transition: color 0.5s ease-in-out;
+        }
+
+        .formula {
+            margin-top: 8px;
+            font-style: italic;
+            color: var(--formula-color);
+            transition: color 0.5s ease-in-out;
+        }
+
+        canvas {
+            margin-top: 20px;
+            background-color: var(--canvas-bg);
+            border-radius: 8px;
+            border: 1px solid var(--canvas-border);
+            transition: background-color 0.5s ease-in-out, border-color 0.5s ease-in-out;
+        }
+
+        .theme-switcher {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .theme-button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .theme-button:hover {
+            background-color: var(--button-hover-bg);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="theme-switcher">
+        <button class="theme-button" onclick="setTheme('light')">Light Theme</button>
+        <button class="theme-button" onclick="setTheme('dark')">Dark Theme</button>
+        <button class="theme-button" onclick="setTheme('blue-green')">Blue/Green Theme</button>
+    </div>
+
+    <div class="converter">
+        <h2>Angle Converter</h2>
+
+        <input type="number" id="inputValue" placeholder="Enter angle" oninput="convert()" />
+
+        <select id="conversionType" onchange="convert()">
+            <option value="toDegrees">Radians → Degrees</option>
+            <option value="toRadians">Degrees → Radians</option>
+        </select>
+
+        <div class="result" id="result"></div>
+        <div class="formula" id="formula"></div>
+
+        <canvas id="circleCanvas" width="300" height="300"></canvas>
+    </div>
+
+    <script>
+        function convert() {
+            const input = parseFloat(document.getElementById("inputValue").value);
+            const type = document.getElementById("conversionType").value;
+            const resultField = document.getElementById("result");
+            const formulaField = document.getElementById("formula");
+
+            if (isNaN(input)) {
+                resultField.textContent = "Please enter a valid number.";
+                formulaField.textContent = "";
+                drawAngle(0);
+                return;
+            }
+
+            let result;
+            let formula;
+            let angle;
+
+            if (type === "toDegrees") {
+                result = (input * 180 / Math.PI).toFixed(4);
+                formula = `Formula: degrees = radians × (180 / π)`;
+                angle = parseFloat(result);
+                resultField.textContent = `${input} rad = ${result}°`;
+            } else {
+                result = (input * Math.PI / 180).toFixed(4);
+                formula = `Formula: radians = degrees × (π / 180)`;
+                angle = input;
+                resultField.textContent = `${input}° = ${result} rad`;
+            }
+
+            formulaField.textContent = formula;
+            drawAngle(angle);
+        }
+
+        function drawAngle(degrees) {
+            const canvas = document.getElementById("circleCanvas");
+            const ctx = canvas.getContext("2d");
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = 100;
+
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Get current theme colors from CSS variables
+            const rootStyles = getComputedStyle(document.documentElement);
+            const circleStrokeColor = rootStyles.getPropertyValue('--circle-stroke').trim();
+            const radiusStrokeColor = rootStyles.getPropertyValue('--radius-stroke').trim();
+            const angleLineStrokeColor = rootStyles.getPropertyValue('--angle-line-stroke').trim();
+            const angleArcStrokeColor = rootStyles.getPropertyValue('--angle-arc-stroke').trim();
+            const textColor = rootStyles.getPropertyValue('--text-color').trim();
+
+
+            // Draw circle
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+            ctx.strokeStyle = circleStrokeColor;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Draw radius line (fixed horizontal)
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.lineTo(centerX + radius, centerY);
+            ctx.strokeStyle = radiusStrokeColor;
+            ctx.stroke();
+
+            // Draw angle line
+            const radians = degrees * (Math.PI / 180);
+            const x = centerX + radius * Math.cos(radians);
+            const y = centerY - radius * Math.sin(radians); // y is inverted in canvas
+
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.lineTo(x, y);
+            ctx.strokeStyle = angleLineStrokeColor;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Draw angle arc
+            ctx.beginPath();
+            // Handle negative angles for arc drawing
+            if (radians < 0) {
+                ctx.arc(centerX, centerY, 30, 0, radians, true); // true for counter-clockwise
+            } else {
+                ctx.arc(centerX, centerY, 30, 0, radians);
+            }
+            ctx.strokeStyle = angleArcStrokeColor;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Draw text
+            ctx.fillStyle = textColor;
+            ctx.font = "14px Arial";
+            ctx.fillText(`${degrees.toFixed(1)}°`, centerX + 10, centerY - 10);
+        }
+
+        function setTheme(themeName) {
+            document.documentElement.className = ''; // Remove any existing theme classes
+            if (themeName !== 'light') { // 'light' is the default, so no class needed
+                document.documentElement.classList.add(`${themeName}-theme`);
+            }
+            convert(); // Recalculate and redraw canvas to apply new colors
+        }
+
+        window.onload = () => {
+            setTheme('light'); // Set default theme on load
+            convert(); // Run once on load to display initial conversion
+        };
+    </script>
+
+</body>
+</html>
