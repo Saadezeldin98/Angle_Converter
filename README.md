@@ -6,7 +6,8 @@ A simple, responsive web application for converting angles between **degrees** a
 
 ## 📸 Preview
 
-![Screenshot](My%20projects/images/Angle_converter.png)
+![Screenshot](![Angle_converter](https://github.com/user-attachments/assets/ece6bcb2-8859-4156-9c88-88d882e214ba)
+)
 
 
 ---
@@ -28,6 +29,7 @@ Saad Ezeldin
 
 ## ▶️ Run the App
 1-Open the index.html file directly in any modern web browser (e.g., Chrome, Firefox, Edge).
+
 2-No installations or setup required — everything runs client-side!
 
 
