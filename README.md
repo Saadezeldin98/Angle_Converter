@@ -6,7 +6,8 @@ A simple, responsive web application for converting angles between **degrees** a
 
 ## 📸 Preview
 
-![Screenshot](![Angle_converter](https://github.com/user-attachments/assets/ece6bcb2-8859-4156-9c88-88d882e214ba)
+![Screenshot](![Angle_converter](https://github.com/user-attachments/assets/a2669177-3780-4318-ba60-6dfb9670890e)
+
 )
 
 
