@@ -1,4 +1,4 @@
-# 🎯 Angle Converter: Degrees ↔ Radians
+# 🎯 Angle Converter: Degrees ↔ Radians, Radians ↔ Degrees
 
 A simple, responsive web application for converting angles between **degrees** and **radians**. It includes a live visual representation on a circle and supports multiple color themes.
 
@@ -6,7 +6,8 @@ A simple, responsive web application for converting angles between **degrees** a
 
 ## 📸 Preview
 
-![Screenshot](My projects/images/Angle_converter.png)  
+![Screenshot](My%20projects/images/Angle_converter.png)
+
 
 ---
 ## Developed by
